@@ -4,6 +4,7 @@ TARGET_DIR="./"
 cd "$TARGET_DIR" || exit
 
 for file in *.jpg; do
+	# Cas 1 : Le fichier a un numéro entre parenthèses (ex: image (5).jpg)
     # On extrait le numéro entre parenthèses 
     if [[ $file =~ \(([0-9]+)\) ]]; then
         num="${BASH_REMATCH[1]}"
@@ -16,5 +17,9 @@ for file in *.jpg; do
             mv "$file" "$new_name"
             echo "Renommé : $file -> $new_name"
         fi
+	# Cas 2 : C'est le fichier racine sans numéro (ex: Image.jpg)
+    elif [[ "$file" == "Image.jpg" || "$file" == "image.jpg" ]]; then
+        new_name="image_001.jpg"
+        mv "$file" "$new_name" && echo "Renommé : $file -> $new_name"
     fi
 done
